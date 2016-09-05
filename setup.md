@@ -55,5 +55,5 @@ We could restart udev at this point, but since we also blacklisted a kernel modu
 
 > sudo apt-get install python-scapy
 
-<script src="https://gist.github.com/giantmolecules/6da12e05c8e5b059215b04b7e577b8d5.js"></script>
+[get this python script...](https://gist.github.com/giantmolecules/6da12e05c8e5b059215b04b7e577b8d5)
 
