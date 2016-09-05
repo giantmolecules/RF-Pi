@@ -74,3 +74,33 @@ $ sudo airmon-ng check kill
 $ sudo airmon-ng start wlan1
 
 $ sudo python scan.py mon0
+
+## Install multimon
+
+$ sudo reboot
+
+$ sudo apt-get install multimon
+
+## Build multimon -ng
+
+# Install dependencies
+
+$ sudo apt-get update
+
+$ sudo apt-get -y install git cmake build-essential libusb-1.0 qt4-qmake libpulse-dev libx11-dev
+
+## [Fetch and compile multimonNG](https://www.raspberrypi.org/forums/viewtopic.php?t=45142)
+
+$ git clone https://github.com/EliasOenal/multimonNG.git
+
+$ cd multimonNG
+
+$ mkdir build
+
+$ cd build
+
+$ qmake ../multimon-ng.pro
+
+$ make
+
+$ sudo make install
