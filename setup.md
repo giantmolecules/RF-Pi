@@ -10,11 +10,10 @@ Raspbian Jessie
 // Get package updates
 > sudo apt-get update
 
+## Install Aircrack-NG
 
-// Install Aircrack-NG
 > sudo apt-get install aircrack-ng
 
-## Test
 // kill processes that might interfere with putting interface in monitor mode
 >sudo airmon-ng check kill
 
@@ -32,5 +31,5 @@ blacklist dvb_usb_rtl28xxu
 
 Install the rtl-sdr software and GNU Radio support:
 
-$ sudo apt-get install rtl-sdr gr-osmosdr
+> sudo apt-get install rtl-sdr gr-osmosdr
 
