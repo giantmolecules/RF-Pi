@@ -104,3 +104,23 @@ $ qmake ../multimon-ng.pro
 $ make
 
 $ sudo make install
+
+## To get osmocom_fft to run
+
+$ sudo nano /boot/config.txt
+
+and add
+framebuffer_depth=32
+framebuffer_ignore_alpha=1
+
+## X-Session over SSH
+
+from OSX
+
+$ ssh -X pi@192.168.#.#
+
+once logged into pi
+
+$ lxsession
+
+
