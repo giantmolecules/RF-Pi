@@ -67,3 +67,10 @@ $ git clone https://github.com/giantmolecules/RF-Pi.git
 
 $ cd 
 
+## Test Scanning
+
+$ sudo airmon-ng check kill
+
+$ sudo airmon-ng start wlan1
+
+$ sudo python scan.py mon0
