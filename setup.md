@@ -1,4 +1,11 @@
-# Setup
+Raspbian Jessie
+
+//Install to SDHC card
+
+# Software / Hardware Setup
+
+//Change Password
+> passwd
 
 // Get package updates
 > sudo apt-get update
@@ -16,4 +23,14 @@
 
 // check to see if mon0 exists
 >iwconfig
+
+## Install RTL-SDR
+
+Edit the file /etc/modprobe.d/raspi-blacklist.conf and add the line:
+
+blacklist dvb_usb_rtl28xxu
+
+Install the rtl-sdr software and GNU Radio support:
+
+$ sudo apt-get install rtl-sdr gr-osmosdr
 
