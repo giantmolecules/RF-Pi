@@ -43,7 +43,16 @@ $ lsusb
 This gave me:
 
 Bus 001 Device 004: ID 0bda:2832 Realtek Semiconductor Corp. RTL2832U DVB-T
-Next we create the file /etc/udev/rules.d/20.rtlsdr.rules, with the line:
 
+Next we create the file /etc/udev/rules.d/20.rtlsdr.rules, with the line:
 SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="2832", GROUP="adm", MODE="0666", SYMLINK+="rtl_sdr"
+
 We could restart udev at this point, but since we also blacklisted a kernel module it's probably just easiest to reboot.
+
+> sudo reboot
+
+## Install python-scapy
+
+> sudo apt-get install python-scapy
+
+<script src="https://gist.github.com/giantmolecules/6da12e05c8e5b059215b04b7e577b8d5.js"></script>
