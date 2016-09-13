@@ -123,4 +123,4 @@ once logged into pi
 
 $ lxsession
 
-
+*If no audio, change config.txt to hdmi_drive=2*
