@@ -26,6 +26,16 @@ arrow keys
 
 tab key
 
+sudo
 
+sudo reboot
+
+sudo shutdown now
+
+sudo apt-get update
+
+sudo apt-get install
+
+sudo apt-get install git
 
 
