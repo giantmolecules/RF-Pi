@@ -22,6 +22,8 @@ $ sudo apt-get install aircrack-ng
 
 // kill processes that might interfere with putting interface in monitor mode
 
+* This will kill processes for ALL adapters
+
 $ sudo airmon-ng check kill
 
 // put wlan1 into monitor mode
