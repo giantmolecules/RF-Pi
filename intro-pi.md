@@ -20,6 +20,8 @@ rm -r
 
 mkdir
 
+nano
+
 arrow keys
 
 tab key
