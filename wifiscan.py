@@ -8,7 +8,7 @@ WHITELIST = ['00:00:00:00:00:00',] # Replace this with your phone's MAC address
 
 def PacketHandler(pkt):
     if pkt.haslayer(Dot11):
-        if pkt.type==PROBE_REQUEST_TYPE and pkt.subtype == PROBE_REQUEST_SUBTYPE and ( pkt.addr2.lower() in WHITELIST or pkt.addr2.upper() in WHITELIST):
+        if pkt.type==PROBE_REQUEST_TYPE and pkt.subtype == PROBE_REQUEST_SUBTYPE or ( pkt.addr2.lower() in WHITELIST or pkt.addr2.upper() in WHITELIST):
             PrintPacket(pkt)
 
 def PrintPacket(pkt):
