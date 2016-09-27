@@ -1,2 +1,2 @@
-# :pie:Introduction to using a Raspberry Pi:pie: #
+# :pie: Introduction to using a Raspberry Pi :pie: #
 
