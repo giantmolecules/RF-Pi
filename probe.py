@@ -1,67 +1,55 @@
-#!/usr/bin/env python
-# import all the needed libraries
-import sys
-from netaddr import *
-import logging
-logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 from scapy.all import *
-from subprocess import *
-import datetime
-import time
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(14, GPIO.OUT)
+p = GPIO.PWM(14, 100);
+p.start(0);
+PROBE_REQUEST_TYPE=0
+PROBE_REQUEST_SUBTYPE=4
 
-# clear the console
-call(["clear"])                                           
+addressAge = 10
+pwmValue = 0
+deviceList = []
+deviceDict = {}
+dictLength = 0
 
-# set date-time parameters                                                          
-today = datetime.date.today()                 
-d=today.strftime("%d, %b %Y")
-tf=time.strftime(" %H:%M")
-t=time.strftime(" %H:%M:%S")
+def PacketHandler(pkt):
+    if pkt.haslayer(Dot11):
+        if pkt.type==PROBE_REQUEST_TYPE and pkt.subtype == PROBE_REQUEST_SUBTYPE:
+            PrintPacket(pkt)
 
-# define variables                                                          
-clients = []                          
-uni = 0
-mach = []
-manu =[]
-
-# our packet handler                                                          
-def phandle(p):                       
-    global uni    
-    if p.haslayer(Dot11ProbeReq):                         
-        mac = str(p.addr2)
-        if p.haslayer(Dot11Elt):                          
-            if p.ID == 0: 
-                ssid = p.info                             
-                if ssid not in clients and ssid != "":
-                    clients.append(ssid)          
-                    maco = EUI(mac)
-            macf = maco.oui.registration().org   
-            print len(clients),mac+" ("+macf+") <--Probing--> "+ssid
-            if args.log:
-                f.write (str(len(clients))+" "+mac+" ("+macf+") //"+" <--Probing--> "+ssid+"\n")
-                if mac not in mach:
-                            mach.append(mac)
-                            uni+=1
-                elif mac not in mach:
-                            mach.append(mac)
-                            uni+=1                           
-
-# our main function             
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description='PyRobe Help')
-    parser.add_argument('interface', action="store", help="specify interface (ex. mon0)", default=False)
-    parser.add_argument("-l","--log", dest="log",action="store_true", help="print log file")
-    args = parser.parse_args()
-    if args.log:
-        f = open("ProbeLog"+str(today)+str(tf)+".txt","w")    
-        sniff(iface=args.interface,prn=phandle, store=0)                    
-        print ("\n")
-        print "Unique MACs: ",uni
-        f.write ("\nUnique MACs: "+str(uni))
-        f.write ("\nScan performed on: "+str(d)+" at"+str(t))  
-        f.close()                                                 
-        print "Log successfully written. Exiting!"
+def PrintPacket(pkt):
+    print "Probe Request Captured:"
+    try:
+        extra = pkt.notdecoded
+    except:
+        extra = None
+    if extra!=None:
+        signal_strength = -(256-ord(extra[-4:-3]))
     else:
-        sniff(iface=args.interface,prn=phandle, store=0)
-        print "\nSuccessfully Exited! No log file written."
+        signal_strength = -100
+        print "No signal strength found"    
+    print "Target: %s Source: %s SSID: %s RSSi: %d"%(pkt.addr3,pkt.addr2,pkt.getlayer(Dot11ProbeReq).info,signal_strength)
+    if pkt.addr2 not in deviceList:
+        deviceList.append(pkt.addr2)
+    print deviceList
+    if pkt.addr2 not in deviceDict:
+        deviceDict[pkt.addr2]=time.time()
+    for address, timestamp in deviceDict.items():
+        if time.time()-timestamp > addressAge:
+            del deviceDict[address]
+    print len(deviceDict)
+    dictLength = len(deviceDict)
+    if dictLength > 10:
+        dictLength = 10
+    pwmValue = (100/10)*dictLength
+    p.ChangeDutyCycle(pwmValue)
+
+def main():
+    from datetime import datetime
+    print "[%s] Starting scan"%time.time()
+    print "Scanning for..."
+    sniff(iface=sys.argv[1],prn=PacketHandler)
+    
+if __name__=="__main__":
+    main()
