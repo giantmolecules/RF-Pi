@@ -56,8 +56,8 @@ if __name__ == "__main__":
     if args.log:
         f = open("ProbeLog"+str(today)+str(tf)+".txt","w")    
         sniff(iface=args.interface,prn=phandle, store=0)                    
-            print ("\n")
-            print "Unique MACs: ",uni
+        print ("\n")
+        print "Unique MACs: ",uni
         f.write ("\nUnique MACs: "+str(uni))
         f.write ("\nScan performed on: "+str(d)+" at"+str(t))  
         f.close()                                                 
