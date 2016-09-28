@@ -12,7 +12,7 @@ def PacketHandler(pkt):
             PrintPacket(pkt)
 
 def PrintPacket(pkt):
-    print "Probe Request Captured:"
+    #print "Probe Request Captured:"
     try:
         extra = pkt.notdecoded
     except:
